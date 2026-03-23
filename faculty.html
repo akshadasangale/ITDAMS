@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<div style="background:#34495e;padding:10px;margin-bottom:20px;">
+    <a href="/" style="color:white;margin-right:20px;">Home</a>
+    <a href="/faculty" style="color:white;margin-right:20px;">Faculty</a>
+    <a href="/student" style="color:white;margin-right:20px;">Student</a>
+    <a href="/admin" style="color:white;margin-right:20px;">Admin</a>
+</div>
+<body>
+    
+<div style="background:#2c3e50;color:white;padding:15px;margin-bottom:20px;">
+    IT Department Academic & Alert Management System
+</div>
+<h2>Faculty Dashboard</h2>
+
+<a href="/logout">Logout</a>
+<br><br>
+
+<h3>Analytics</h3>
+<div class="card">
+    Total Assignments: {{ assignments|length }}
+</div>
+
+<div class="card">
+    Total Events: {{ events|length }}
+</div>
+<div class="card">
+    Total Students: {{ total_students }}
+</div>
+
+<hr>
+
+<h3>Assignments</h3>
+<a href="/add-assignment">Add Assignment</a>
+
+<table border="1">
+<tr>
+    <th>Title</th>
+    <th>Due Date</th>
+    <th>Submissions</th>
+</tr>
+
+{% for a in assignments %}
+<tr>
+    <td>{{ a["title"] }}</td>
+    <td>{{ a["due_date"] }}</td>
+    <td>
+        <a href="/view-submissions/{{ a['id'] }}">
+            View Submissions
+        </a>
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+<hr>
+<h3>Academic Controls</h3>
+
+<a href="/add-marks">
+    <button>Add Marks</button>
+</a>
+
+<a href="/mark-attendance-page">
+    <button>Mark Attendance</button>
+</a>
+
+<hr>
+
+<h3>Events / GFM Meetings</h3>
+<a href="/add-event">Add Event</a>
+
+<table border="1">
+<tr>
+    <th>Title</th>
+    <th>Date</th>
+</tr>
+{% for e in events %}
+<tr>
+    <td>{{ e["title"] }}</td>
+    <td>{{ e["event_date"] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<h3>Send Message to All Students</h3>
+<form method="POST" action="/send-message">
+    <textarea name="message" placeholder="Enter message..." required></textarea><br><br>
+    <button type="submit">Send Email</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<div style="background:#34495e;padding:10px;margin-bottom:20px;">
+    <a href="/" style="color:white;margin-right:20px;">Home</a>
+    <a href="/faculty" style="color:white;margin-right:20px;">Faculty</a>
+    <a href="/student" style="color:white;margin-right:20px;">Student</a>
+    <a href="/admin" style="color:white;margin-right:20px;">Admin</a>
+</div>
+<body>
+
+<!-- Header -->
+<div style="background:#2c3e50;color:white;padding:15px;margin-bottom:20px;">
+    IT Department Academic & Alert Management System
+</div>
+
+<h2>Student Dashboard</h2>
+
+<a href="/logout">Logout</a>
+<br><br>
+
+<!-- Summary Cards -->
+<div class="card">
+    Total Assignments: {{ assignments|length }}
+</div>
+
+<div class="card">
+    Total Events: {{ events|length }}
+</div>
+
+<div class="card">
+    Submitted: {{ submitted_ids|length }}
+</div>
+
+{% if attendance_count is defined %}
+<div class="card">
+    Total Attendance Marked: {{ attendance_count }}
+</div>
+{% endif %}
+
+<hr>
+
+<!-- Overdue Alert Banner -->
+{% set overdue_count = 0 %}
+{% for a in assignments %}
+    {% if a["due_date"] < today|string and a["id"] not in submitted_ids %}
+        {% set overdue_count = overdue_count + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% if overdue_count > 0 %}
+<div style="background:#ffcccc;padding:10px;margin-bottom:15px;">
+    ⚠ You have {{ overdue_count }} overdue assignment(s)!
+</div>
+{% endif %}
+
+<!-- Assignments Section -->
+<h3>Assignments</h3>
+
+<table border="1">
+<tr>
+    <th>Title</th>
+    <th>Due Date</th>
+    <th>Status</th>
+</tr>
+
+{% for a in assignments %}
+<tr>
+    <td>{{ a["title"] }}</td>
+
+    <td>
+        {% if a["due_date"] < today|string %}
+            <span style="color:red;">{{ a["due_date"] }} (Overdue)</span>
+        {% else %}
+            {{ a["due_date"] }}
+        {% endif %}
+    </td>
+
+    <td>
+        {% if a["id"] in submitted_ids %}
+            <span style="color:green;">Submitted</span>
+        {% elif a["due_date"] < today|string %}
+            <span style="color:red;">Overdue</span>
+        {% else %}
+            <a href="/submit/{{ a['id'] }}">Submit</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+<hr>
+
+<!-- Events Section -->
+<h3>Upcoming Events / GFM Meetings</h3>
+
+<table border="1">
+<tr>
+    <th>Title</th>
+    <th>Date</th>
+</tr>
+
+{% for e in events %}
+<tr>
+    <td>{{ e["title"] }}</td>
+
+    <td>
+        {% if e["event_date"] == today|string %}
+            <span style="color:green;font-weight:bold;">
+                {{ e["event_date"] }} (Today)
+            </span>
+        {% else %}
+            {{ e["event_date"] }}
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
+<hr>
+<h3>PBL Projects</h3>
+
+<table border="1">
+<tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Due Date</th>
+</tr>
+
+{% for p in pbl_projects %}
+<tr>
+    <td>{{ p["title"] }}</td>
+    <td>{{ p["description"] }}</td>
+    <td>{{ p["due_date"] }}</td>
+</tr>
+{% endfor %}
+</table>
+<hr>
+<h3>Marks / Performance</h3>
+
+<table border="1">
+<tr>
+    <th>Subject</th>
+    <th>Score</th>
+</tr>
+
+{% for m in marks %}
+<tr>
+    <td>{{ m["subject"] }}</td>
+    <td>{{ m["score"] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<br><br>
+<a href="/download-report">
+    <button>Download Report Card (PDF)</button>
+</a>

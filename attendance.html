@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mark Attendance</title>
+</head>
+<body>
+
+<h2>Mark Attendance</h2>
+
+<a href="/faculty">Back</a>
+<br><br>
+
+<table border="1">
+<tr>
+    <th>Student Email</th>
+    <th>Action</th>
+</tr>
+
+{% for s in students %}
+<tr>
+    <td>{{ s["email"] }}</td>
+    <td>
+        <a href="/mark-attendance/{{ s['id'] }}">
+            <button>Mark Present</button>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

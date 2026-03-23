@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<div style="background:#34495e;padding:10px;margin-bottom:20px;">
+    <a href="/" style="color:white;margin-right:20px;">Home</a>
+    <a href="/faculty" style="color:white;margin-right:20px;">Faculty</a>
+    <a href="/student" style="color:white;margin-right:20px;">Student</a>
+    <a href="/admin" style="color:white;margin-right:20px;">Admin</a>
+</div>
+<body>
+
+<div style="background:#2c3e50;color:white;padding:15px;margin-bottom:20px;">
+    IT Department Academic & Management System (Admin Panel)
+</div>
+
+<h2>Admin Dashboard (HOD Panel)</h2>
+
+<a href="/logout">Logout</a>
+<br><br>
+
+<div class="card">
+    Total Students: {{ total_students }}
+</div>
+
+<div class="card">
+    Total Faculty: {{ total_faculty }}
+</div>
+
+<div class="card">
+    Total Assignments: {{ total_assignments }}
+</div>
+
+<div class="card">
+    Total Events: {{ total_events }}
+</div>
+
+<hr>
+
+<p>
+Admin can monitor overall department performance,
+faculty activity, and student academic engagement.
+</p>
+
+</body>
+</html>

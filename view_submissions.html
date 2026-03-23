@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submissions</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h2>Submissions</h2>
+<div class="card">
+    Total Students: {{ total_students }}
+</div>
+
+<div class="card">
+    Submitted: {{ submitted_count }}
+</div>
+
+<div class="card">
+    Pending: {{ pending_count }}
+</div>
+
+<hr>
+
+<table border="1">
+{% for s in submissions %}
+<tr>
+    <td>{{ s["email"] }}</td>
+    <td>
+        {% if s["submitted_at"] %}
+            {{ s["submitted_at"] }}
+        {% else %}
+            <span style="color:red;">Not Submitted</span>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+<br>
+<a href="/faculty">Back to Dashboard</a>
+
+</body>
+</html>
